@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello Kitty Travel Diary 🎀 | 헬로키티 여행 준비물 플래너</title>
+  <meta name="description" content="헬로키티와 산리오 친구들과 함께하는 사랑스러운 여행 준비물 체크리스트! 일본 겨울 여행 필수템 자동 추천과 카테고리별 스마트 체크리스트.">
+  <meta name="keywords" content="헬로키티, 여행 준비물, 산리오, 일본 겨울 여행, 체크리스트, 여행 플래너">
+  
+  <!-- 파비콘 리본 SVG -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎀</text></svg>">
+  
+  <!-- 구글 폰트: 귀여운 감성 폰트 (Jua, Gaegu, Nunito) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Jua&family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- 눈송이 & 반짝이 배경 애니메이션 레이어 -->
+  <div class="sparkles-container" id="sparklesContainer" aria-hidden="true"></div>
+
+  <!-- 메인 래퍼 (다이어리 바인더 느낌) -->
+  <div class="planner-wrapper">
+    
+    <!-- 1. 상단 헤더와 헬로키티 여행 일러스트 -->
+    <header class="diary-header">
+      <div class="header-decorations" aria-hidden="true">
+        <span class="sticker float-anim star-1">⭐</span>
+        <span class="sticker float-anim heart-1">💖</span>
+        <span class="sticker float-anim cloud-1">☁️</span>
+        <span class="sticker float-anim ribbon-1">🎀</span>
+      </div>
+
+      <div class="header-inner">
+        <!-- 헬로키티 여행 일러스트 영역 -->
+        <div class="kitty-hero-illustration">
+          <div class="polaroid-frame">
+            <div class="polaroid-tape" aria-hidden="true"></div>
+            <img src="assets/images/kitty_travel.jpg" alt="여행 가방과 여권을 들고 있는 귀여운 헬로키티 일러스트" class="kitty-img" id="kittyHeroImg">
+            <div class="polaroid-caption">
+              <span>Kitty's Diary</span>
+              <span class="caption-stamp">Ready for Trip ✈️</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 타이틀 & 안내 문구 영역 -->
+        <div class="header-content">
+          <div class="kitty-badge">
+            <span class="bow-icon">🎀</span>
+            <span>SANRIO TRAVEL PLANNER</span>
+            <span class="bow-icon">🎀</span>
+          </div>
+          <h1 class="main-title">Hello Kitty Travel Diary <span class="title-bow">🎀</span></h1>
+          <p class="main-tagline">키티와 함께 여행 준비하기!</p>
+          <p class="sub-tagline">설레는 여행, 빠짐없이 챙겨 볼까요? ✈️</p>
+          
+          <div class="header-quick-stats">
+            <div class="quick-pill"><span class="icon">🧳</span> 설레는 패킹 데이</div>
+            <div class="quick-pill"><span class="icon">🌸</span> 꼼꼼하게 체크완료</div>
+            <div class="quick-pill reset-pill" id="resetAllBtn" title="기본 준비물로 초기화"><span class="icon">🔄</span> 초기화</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. 여행 국가, 계절, 지역, 유형 설정 카드 -->
+    <section class="card travel-settings-card" aria-labelledby="settingsTitle">
+      <div class="card-ribbon-tag">
+        <span class="card-tag-icon">🗺️</span>
+        <span class="card-tag-text">MY TRIP PLAN</span>
+      </div>
+      
+      <div class="card-header-simple">
+        <h2 id="settingsTitle" class="section-title">
+          <span class="deco-icon">✈️</span> 여행 정보 설정
+        </h2>
+        <span class="settings-hint">설정을 변경하면 맞춤 추천 준비물이 자동으로 업데이트돼요!</span>
+      </div>
+
+      <div class="settings-grid">
+        <!-- 여행 국가 -->
+        <div class="setting-item">
+          <label for="countrySelect" class="setting-label">
+            <span class="label-icon">🌍</span> 여행 국가
+          </label>
+          <div class="custom-select-wrapper">
+            <select id="countrySelect" class="custom-select">
+              <option value="일본" selected>🇯🇵 일본</option>
+              <option value="한국">🇰🇷 한국</option>
+              <option value="대만">🇹🇼 대만</option>
+              <option value="기타">🌏 기타 국가</option>
+            </select>
+            <span class="select-arrow">▼</span>
+          </div>
+        </div>
+
+        <!-- 여행 계절 -->
+        <div class="setting-item">
+          <label for="seasonSelect" class="setting-label">
+            <span class="label-icon">❄️</span> 여행 계절
+          </label>
+          <div class="custom-select-wrapper">
+            <select id="seasonSelect" class="custom-select">
+              <option value="봄">🌸 봄</option>
+              <option value="여름">☀️ 여름</option>
+              <option value="가을">🍁 가을</option>
+              <option value="겨울" selected>❄️ 겨울</option>
+            </select>
+            <span class="select-arrow">▼</span>
+          </div>
+        </div>
+
+        <!-- 여행 지역 -->
+        <div class="setting-item">
+          <label for="regionSelect" class="setting-label">
+            <span class="label-icon">📍</span> 여행 지역
+          </label>
+          <div class="custom-select-wrapper">
+            <select id="regionSelect" class="custom-select">
+              <option value="선택 전" selected>📍 지역 선택 (기본)</option>
+              <option value="도쿄">🗼 도쿄</option>
+              <option value="오사카">🐙 오사카</option>
+              <option value="교토">⛩️ 교토</option>
+              <option value="삿포로 및 홋카이도">⛄ 삿포로 및 홋카이도</option>
+              <option value="후쿠오카">🍜 후쿠오카</option>
+              <option value="기타 지역">🗾 기타 지역</option>
+            </select>
+            <span class="select-arrow">▼</span>
+          </div>
+        </div>
+
+        <!-- 여행 유형 -->
+        <div class="setting-item">
+          <label for="tripTypeSelect" class="setting-label">
+            <span class="label-icon">🎒</span> 여행 유형
+          </label>
+          <div class="custom-select-wrapper">
+            <select id="tripTypeSelect" class="custom-select">
+              <option value="일반 여행" selected>🎒 일반 여행</option>
+              <option value="온천 여행">♨️ 온천 여행</option>
+              <option value="스키 및 스노보드 여행">⛷️ 스키 및 스노보드 여행</option>
+            </select>
+            <span class="select-arrow">▼</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 선택된 설정 요약 배너 -->
+      <div class="settings-summary-bar">
+        <span class="summary-badge">현재 플랜</span>
+        <span id="settingsSummaryText">🇯🇵 일본 · ❄️ 겨울 · 🎒 일반 여행</span>
+      </div>
+    </section>
+
+    <!-- 3. 전체 준비 진행률 카드 -->
+    <section class="card progress-card" aria-labelledby="progressTitle">
+      <div class="progress-header">
+        <div class="progress-title-group">
+          <h2 id="progressTitle" class="section-title">
+            <span class="deco-icon">🎀</span> 전체 준비 진행률
+          </h2>
+          <p class="progress-subtitle">하나씩 체크하며 캐리어를 채워보세요!</p>
+        </div>
+        <div class="progress-percent-badge" id="progressPercentBadge">
+          <span class="percent-num" id="progressPercentNum">0</span>%
+        </div>
+      </div>
+
+      <!-- 핑크 프로그레스 바 -->
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progressBarFill" style="width: 0%;">
+          <span class="progress-kitty-runner" aria-hidden="true">🎀</span>
+        </div>
+      </div>
+
+      <!-- 진행 통계 카운터 3분할 -->
+      <div class="progress-stats-grid">
+        <div class="stat-box total-stat">
+          <span class="stat-icon">📦</span>
+          <span class="stat-label">전체 준비물</span>
+          <span class="stat-value" id="statTotal">0</span>
+        </div>
+        <div class="stat-box completed-stat">
+          <span class="stat-icon">✨</span>
+          <span class="stat-label">완료된 준비물</span>
+          <span class="stat-value" id="statCompleted">0</span>
+        </div>
+        <div class="stat-box remaining-stat">
+          <span class="stat-icon">⏳</span>
+          <span class="stat-label">남은 준비물</span>
+          <span class="stat-value" id="statRemaining">0</span>
+        </div>
+      </div>
+
+      <!-- 전체 완료 시 나타나는 축하 메시지 영역 -->
+      <div class="completion-banner" id="completionBanner" style="display: none;">
+        <div class="completion-content">
+          <span class="celebration-emoji">🎉</span>
+          <div class="celebration-text">
+            <strong>야호! 키티와 여행 준비 완료! 🎉</strong>
+            <p>모든 준비물을 꼼꼼히 챙겼어요! 행복하고 안전한 여행 되세요 ✈️💖</p>
+          </div>
+          <span class="celebration-emoji">💖</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 준비물 선택 담기 영역 (클릭/터치로 손쉽게 고르는 스티커 보물상자) -->
+    <section class="card picker-item-card" aria-labelledby="addItemTitle">
+      <div class="card-ribbon-tag tag-purple">
+        <span class="card-tag-icon">🎁</span>
+        <span class="card-tag-text">ITEM PICKER</span>
+      </div>
+
+      <div class="card-header-simple">
+        <div class="picker-title-group">
+          <h2 id="addItemTitle" class="section-title">
+            <span class="deco-icon">🎁</span> 키티의 준비물 보물상자
+          </h2>
+          <span class="diary-bubble-tip">터치 한 번으로 바로 담아봐! 🎀</span>
+        </div>
+        <p class="picker-guide-text">복잡한 타이핑 없이, 아래 준비물 스티커를 <strong>톡 누르면</strong> 내 체크리스트에 쏙 들어가요!</p>
+      </div>
+
+      <!-- 카테고리 선택 탭 버튼 바 -->
+      <div class="picker-tabs-bar" id="pickerTabsBar">
+        <button type="button" class="picker-cat-tab active" data-category="의류">👗 의류</button>
+        <button type="button" class="picker-cat-tab" data-category="세면도구">🧴 세면도구</button>
+        <button type="button" class="picker-cat-tab" data-category="전자기기">📱 전자기기</button>
+        <button type="button" class="picker-cat-tab" data-category="여행 서류 및 결제">💳 서류·결제</button>
+        <button type="button" class="picker-cat-tab" data-category="의약품">💊 의약품</button>
+        <button type="button" class="picker-cat-tab" data-category="기타">🎒 기타</button>
+      </div>
+
+      <!-- 선택 가능한 준비물 스티커 그리드 -->
+      <div class="picker-chips-container" id="pickerChipsContainer">
+        <!-- JS에 의해 선택 가능한 스티커 아이템들이 동적으로 렌더링됩니다 -->
+      </div>
+
+      <!-- 목록에 없는 특별한 물건 직접 입력하기 (필요할 때만 펼치는 옵션) -->
+      <div class="custom-input-accordion">
+        <button type="button" class="btn-toggle-custom-input" id="toggleCustomInputBtn">
+          <span>✏️</span> <span>목록에 없는 특별한 물건 직접 입력하기</span> <span id="customInputToggleArrow">▼</span>
+        </button>
+        
+        <form id="addItemForm" class="custom-add-form" style="display: none;" onsubmit="return false;">
+          <div class="form-inputs-row">
+            <div class="input-group category-select-group">
+              <label for="newCategorySelect" class="sr-only">카테고리</label>
+              <select id="newCategorySelect" class="custom-select category-input-select" required>
+                <option value="의류">👗 의류</option>
+                <option value="세면도구">🧴 세면도구</option>
+                <option value="전자기기">📱 전자기기</option>
+                <option value="여행 서류 및 결제">💳 여행 서류 및 결제</option>
+                <option value="의약품">💊 의약품</option>
+                <option value="기타">🎒 기타</option>
+              </select>
+            </div>
+            <div class="input-group item-name-group">
+              <label for="newItemInput" class="sr-only">준비물 이름</label>
+              <input 
+                type="text" 
+                id="newItemInput" 
+                class="diary-input" 
+                placeholder="예: 최애 키티 인형, 목베개, 삼각대..." 
+                maxlength="40" 
+                autocomplete="off"
+              >
+            </div>
+            <button type="submit" id="addItemBtn" class="btn-primary add-submit-btn">
+              <span class="btn-icon">➕</span>
+              <span class="btn-text">추가하기</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- 5. 일본 겨울 여행 추천 카드 -->
+    <section class="card recommendation-card" aria-labelledby="recomTitle">
+      <div class="card-ribbon-tag tag-blue">
+        <span class="card-tag-icon">❄️</span>
+        <span class="card-tag-text">RECOMMENDED</span>
+      </div>
+
+      <div class="recom-header-box">
+        <div class="recom-title-info">
+          <div class="recom-badge-row">
+            <span class="character-mini-badge">🐾 키티의 똑똑한 추천</span>
+            <span class="winter-season-tag" id="recomSeasonTag">일본 겨울 맞춤</span>
+          </div>
+          <h2 id="recomTitle" class="section-title recom-heading">
+            키티가 골라준 겨울 여행 필수템 ❄️
+          </h2>
+          <p class="recom-subtitle">일본 겨울 여행을 더 따뜻하고 편안하게 준비해 봐!</p>
+        </div>
+        
+        <!-- 추천 전체 담기 버튼 및 접기/펼치기 -->
+        <div class="recom-actions-bar">
+          <button type="button" id="addAllRecomBtn" class="btn-subtle add-all-recom-btn">
+            <span>✨</span> 추천 아이템 전체 담기
+          </button>
+          <button type="button" id="toggleRecomBtn" class="btn-icon-round" aria-label="추천 목록 토글">
+            <span id="recomToggleIcon">▲</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 일본 전압 & 보조배터리 안전 꿀팁 배너 -->
+      <div class="travel-safety-tips-banner">
+        <div class="safety-tip-item">
+          <span class="tip-icon">⚡</span>
+          <div class="tip-body">
+            <strong>일본 전압 & 플러그 안내</strong>
+            <p>일본은 <strong>100V / 2구 11자(A형)</strong> 플러그를 사용해요. 프리볼트(100~240V) 여부와 변환 어댑터(돼지코)를 꼭 챙기세요!</p>
+          </div>
+        </div>
+        <div class="safety-tip-item">
+          <span class="tip-icon">🔋</span>
+          <div class="tip-body">
+            <strong>보조배터리 기내 반입 안내</strong>
+            <p>보조배터리는 위탁 수하물(부치는 짐) 반입이 <strong>절대 불가</strong>하며, 반드시 <strong>기내(들고 타는 짐)</strong>에 소지해야 해요!</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 추천 필터 탭 (전체 / 의류 / 뷰티보습 / 전자기기 / 서류 / 안전기타) -->
+      <div class="recom-filter-bar">
+        <button type="button" class="recom-tab active" data-filter="all">전체보기 (<span id="recomCountTotal">0</span>)</button>
+        <button type="button" class="recom-tab" data-filter="의류">👗 의류</button>
+        <button type="button" class="recom-tab" data-filter="세면도구">🧴 세면·보습</button>
+        <button type="button" class="recom-tab" data-filter="전자기기">📱 전자기기</button>
+        <button type="button" class="recom-tab" data-filter="여행 서류 및 결제">💳 서류·결제</button>
+        <button type="button" class="recom-tab" data-filter="의약품">💊 의약·안전</button>
+        <button type="button" class="recom-tab" data-filter="기타">🎒 기타</button>
+      </div>
+
+      <!-- 추천 아이템 그리드 컨테이너 -->
+      <div class="recom-items-grid" id="recomItemsGrid">
+        <!-- JS 동적 렌더링 -->
+      </div>
+    </section>
+
+    <!-- 6. 카테고리별 준비물 체크리스트 (6대 카테고리) -->
+    <section class="checklist-section" aria-labelledby="checklistTitle">
+      <div class="checklist-main-header">
+        <div class="title-with-badge">
+          <span class="section-sticker">📋</span>
+          <h2 id="checklistTitle" class="section-title">나의 여행 준비물 체크리스트</h2>
+        </div>
+        <p class="checklist-guide-text">체크박스를 눌러 준비 완료를 표시하고, 필요 없는 항목은 휴지통을 눌러 삭제할 수 있어요.</p>
+      </div>
+
+      <!-- 카테고리 카드 그리드 -->
+      <div class="categories-grid" id="categoriesGrid">
+        <!-- 6개 카테고리 카드가 JS에 의해 렌더링됩니다 -->
+      </div>
+    </section>
+
+    <!-- 7. 하단의 귀여운 여행 응원 문구 & 다이어리 스탬프 -->
+    <footer class="diary-footer">
+      <div class="footer-banner-box">
+        <div class="footer-sanrio-preview">
+          <img src="assets/images/sanrio_friends.jpg" alt="마이멜로디, 시나모롤, 쿠로미 겨울 여행 스티커" class="sanrio-footer-img">
+        </div>
+        <div class="footer-cheering-text">
+          <h3 class="footer-msg-title">키티와 산리오 친구들이 당신의 즐거운 여행을 응원해요! ✈️💖</h3>
+          <p class="footer-msg-sub">"안전하고 따뜻한 추억 가득한 여행이 되길 바랄게요! 맛있는 것도 많이 먹고 와요~ 🍓🍰"</p>
+          <div class="footer-stamps">
+            <span class="stamp-pill">🎀 Hello Kitty</span>
+            <span class="stamp-pill">🐰 My Melody</span>
+            <span class="stamp-pill">☕ Cinnamoroll</span>
+            <span class="stamp-pill">😈 Kuromi</span>
+          </div>
+        </div>
+      </div>
+      <p class="copyright-notice">© 2026 Hello Kitty Travel Diary Planner · Made with Sanrio Cuties & Pastel Love</p>
+    </footer>
+
+  </div>
+
+  <!-- 삭제 확인 귀여운 모달 다이얼로그 -->
+  <div class="modal-overlay" id="deleteConfirmModal" aria-hidden="true" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-bow">🎀</div>
+      <h3 class="modal-title">준비물을 지울까요?</h3>
+      <p class="modal-desc" id="deleteModalItemName">선택한 항목이 체크리스트에서 삭제됩니다.</p>
+      <div class="modal-actions">
+        <button type="button" class="btn-modal-cancel" id="deleteModalCancelBtn">취소</button>
+        <button type="button" class="btn-modal-delete" id="deleteModalConfirmBtn">삭제하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 토스트 알림 메시지 (중복 추가 경고, 완료 등) -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- 스크립트 연결 -->
+  <script src="js/app.js"></script>
+</body>
+</html>
